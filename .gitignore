@@ -1,0 +1,7 @@
+DerivedData/
+build/
+xcuserdata/
+project.xcworkspace/
+*.pbxuser
+Pods/
+Config.xcconfig
