@@ -7,40 +7,85 @@
 
 
 import CoreData
+import Combine
 
-enum RepositoryError: Error {
+protocol CustomError:Error{
+    var notFound:Self{get}
+    var duplicate:Self{get}
+}
+enum RepositoryError: CustomError {
     case notFound
     case duplicate
     case invalidManagedObjectType
-}
-class PersistenceRepository {
-    private let context = PersistenceService.context
     
-    @discardableResult
-    func create(name:String, rate: Double)->Currency {
-        let currency = Currency(context: self.context)
-        currency.name = name
-        currency.rate = rate
-        PersistenceService.saveContext()
-        return currency
+    var notFound: RepositoryError{
+        .notFound
     }
     
+    var duplicate: RepositoryError{
+        .duplicate
+    }
+    
+    
+}
+protocol EntityCreating{
+    var context:NSManagedObjectContext { get }
+    func createEntity<T:NSManagedObject>()->T
+}
+extension EntityCreating{
+    func createEntity<T:NSManagedObject>()->T{
+        return T(context: context)
+    }
+}
+protocol CoreDataCreateModelPublishing {
+    var context: NSManagedObjectContext { get }
+    func producer(save action: @escaping Action) -> CDSaveModelPublisher
 }
 
-extension PersistenceRepository:RepositoryProtocol{
-    typealias T = [Currency]
-    func getData(completionHandler: @escaping (Result<[Currency]?, Error>) -> Void) {
-        let fetchRequest = Currency.fetchRequest()
-        do {
-            if let fetchResults = try context.fetch(fetchRequest) as? [Currency],fetchResults.count>0 {
-                completionHandler(.success(fetchResults))
-            } else {
-                completionHandler( .failure(RepositoryError.notFound))
-            }
-        } catch {
-            completionHandler( .failure(RepositoryError.invalidManagedObjectType))
-        }
+extension CoreDataCreateModelPublishing {
+    func producer(save action: @escaping Action) -> CDSaveModelPublisher {
+        return CDSaveModelPublisher(action: action, context: context)
     }
+}
+protocol PersistenceStoring:EntityCreating,CoreDataCreateModelPublishing,RepositoryProtocol{
+    
+}
+//class PersistenceRepository {
+//
+//    @discardableResult
+//    func create(name:String, rate: Double)->Currency {
+//        let currency = Currency(context: self.context)
+//        currency.name = name
+//        currency.rate = rate
+//        PersistenceService.saveContext()
+//        return currency
+//    }
+//
+//}
+
+class PersistenceRepository:PersistenceStoring{
+    
+    typealias Request = NSFetchRequest<Currency>
+    typealias Output = CDFetchResultPublisher<Currency>
+    var context: NSManagedObjectContext{
+        return PersistenceService.context
+    }
+    func getData(_ request: NSFetchRequest<Currency>) -> CDFetchResultPublisher<Currency> {
+        return CDFetchResultPublisher(request: request, context: context)
+    }
+
+//    func getData(completionHandler: @escaping (Result<[Currency]?, Error>) -> Void) {
+//        let fetchRequest = Currency.fetchRequest()
+//        do {
+//            if let fetchResults = try context.fetch(fetchRequest) as? [Currency],fetchResults.count>0 {
+//                completionHandler(.success(fetchResults))
+//            } else {
+//                completionHandler( .failure(RepositoryError.notFound))
+//            }
+//        } catch {
+//            completionHandler( .failure(RepositoryError.invalidManagedObjectType))
+//        }
+//    }
 }
 // MARK: update data in background
 extension PersistenceRepository{

@@ -6,13 +6,9 @@
 //
 
 import Foundation
+import Combine
 
 class APIRepository{
-    enum APIError:Error{
-        case serviceError
-        case badURL
-        case noDataFound
-    }
     enum ResponseCode:Int{
         case success = 200
         case failed = 404
@@ -23,11 +19,11 @@ class APIRepository{
         let urlSession = URLSession.shared
         let dataTask = urlSession.dataTask(with: urlRequest){ data,response,error in
             guard let responseStatus = response as? HTTPURLResponse, responseStatus.statusCode == ResponseCode.success.rawValue else{
-                completionHandler(.failure(APIError.serviceError))
+                completionHandler(.failure(API.ErrorType.Service))
                 return
             }
             guard let data = data, error == nil else{
-                completionHandler(.failure(APIError.serviceError))
+                completionHandler(.failure(API.ErrorType.Service))
                 return
             }
             completionHandler(.success(data))
@@ -36,44 +32,45 @@ class APIRepository{
     }
 }
 extension APIRepository:RepositoryProtocol{
-    typealias T = ExchangeRates
-    func getData(completionHandler: @escaping(Result<ExchangeRates?, Error>) -> Void) {
-        self.fecthCurrencyList(completionHandler: {result in
-            switch result{
-            case .success(let data):
-                if let data = data{
-                    do{
-                        let resultData = try JSONDecoder().decode(ExchangeRates.self, from: data)
-                        completionHandler(.success(resultData))
-                    }catch(_){
-                        completionHandler(.failure(APIError.noDataFound))
-                    }
-                }
-                else{
-                    completionHandler(.failure(APIError.noDataFound))
-                }
-            case .failure(let error):
-                completionHandler(.failure(error))
-            }
-        })
+    typealias Request = URLRequest
+    typealias Output = AnyPublisher<ExchangeRates, Error>
+
+    func getData(_ request:URLRequest) -> AnyPublisher<ExchangeRates, Error> {
+        URLSession.shared.dataTaskPublisher(for: request)
+            .map({ $0.data })
+            .decode(type: ExchangeRates.self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
     }
+//    func getData(completionHandler: @escaping(Result<ExchangeRates?, Error>) -> Void) {
+//        self.fecthCurrencyList(completionHandler: {result in
+//            switch result{
+//            case .success(let data):
+//                if let data = data{
+//                    do{
+//                        let resultData = try JSONDecoder().decode(ExchangeRates.self, from: data)
+//                        completionHandler(.success(resultData))
+//                    }catch(_){
+//                        completionHandler(.failure(API.ErrorType.NoDataFound))
+//                    }
+//                }
+//                else{
+//                    completionHandler(.failure(API.ErrorType.NoDataFound))
+//                }
+//            case .failure(let error):
+//                completionHandler(.failure(error))
+//            }
+//        })
+//    }
 }
 extension APIRepository:APIClientProtocol{
     func fecthCurrencyList(completionHandler: @escaping resultHandler){
-        
-        guard var urlComponents = URLComponents(string: AppConstants.RestURL.currencyParser) else{
-            completionHandler(.failure(APIError.badURL))
-            return
-        }
-        urlComponents.queryItems = [
-            URLQueryItem(name: "app_id", value: AppConstants.Config.APPID)
-        ]
-        guard let url = urlComponents.url else{
-            completionHandler(.failure(APIError.badURL))
-            return
+        guard let url = API.EndPoints.allCurrencies(AppConstants.Config.APPID).url else{
+                completionHandler(.failure(API.ErrorType.BadURL))
+                return
         }
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = AppConstants.HTTPMethods.GET
+        urlRequest.httpMethod = API.HTTPMethods.GET
         executeAsync(urlRequest, completionHandler: {result in
             switch result {
                 case .success(let data):

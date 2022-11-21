@@ -15,6 +15,10 @@
 		060C42BE28F9C5EC009DF54D /* CurrencyAPITTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C42BD28F9C5EC009DF54D /* CurrencyAPITTest.swift */; };
 		060F6FC228F9E51500C4C201 /* Currency+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060F6FC028F9E51500C4C201 /* Currency+CoreDataClass.swift */; };
 		060F6FC328F9E51500C4C201 /* Currency+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060F6FC128F9E51500C4C201 /* Currency+CoreDataProperties.swift */; };
+		0612F9EC29263755006F55E9 /* CDFetchResultPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0612F9EB29263755006F55E9 /* CDFetchResultPublisher.swift */; };
+		0612F9EE2926B278006F55E9 /* CDSaveModelPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0612F9ED2926B278006F55E9 /* CDSaveModelPublisher.swift */; };
+		0614A3B42917ACA700C12C32 /* APIWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0614A3B32917ACA700C12C32 /* APIWorker.swift */; };
+		0614A3B62917ACB800C12C32 /* PersistenceWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0614A3B52917ACB800C12C32 /* PersistenceWorker.swift */; };
 		0615D47528F1E331003BFC48 /* CurrencyConverterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0615D47428F1E331003BFC48 /* CurrencyConverterApp.swift */; };
 		0615D47728F1E331003BFC48 /* ConverterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0615D47628F1E331003BFC48 /* ConverterView.swift */; };
 		0615D47928F1E335003BFC48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0615D47828F1E335003BFC48 /* Assets.xcassets */; };
@@ -23,13 +27,15 @@
 		0615D49028F1E335003BFC48 /* CurrencyConverterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0615D48F28F1E335003BFC48 /* CurrencyConverterUITests.swift */; };
 		0615D49228F1E335003BFC48 /* CurrencyConverterUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0615D49128F1E335003BFC48 /* CurrencyConverterUITestsLaunchTests.swift */; };
 		0615D4A228F1E42F003BFC48 /* Configurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0615D4A128F1E42F003BFC48 /* Configurator.swift */; };
-		0615D4A428F1E4CC003BFC48 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0615D4A328F1E4CC003BFC48 /* Interactor.swift */; };
-		0615D4A628F1E4DE003BFC48 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0615D4A528F1E4DE003BFC48 /* Presenter.swift */; };
+		0615D4A428F1E4CC003BFC48 /* ConversionWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0615D4A328F1E4CC003BFC48 /* ConversionWorker.swift */; };
+		062DB7B92916EB79001091C0 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 062DB7B82916EB79001091C0 /* Swinject */; };
 		062FCB5728F8037400A01F26 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062FCB5628F8037400A01F26 /* Extensions.swift */; };
 		062FCB5A28F81A9800A01F26 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062FCB5928F81A9800A01F26 /* PersistenceService.swift */; };
 		062FCB5C28F81AF000A01F26 /* PersistenceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062FCB5B28F81AF000A01F26 /* PersistenceRepository.swift */; };
 		062FCB9D28F8218D00A01F26 /* CurrencyConverter.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 062FCB9B28F8218D00A01F26 /* CurrencyConverter.xcdatamodeld */; };
 		062FCBB428F84D5100A01F26 /* DomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062FCBB328F84D5100A01F26 /* DomainModel.swift */; };
+		064584BE29125E6F008F0B1A /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064584BD29125E6F008F0B1A /* API.swift */; };
+		0652D1402916E80E00CE6A74 /* Injector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0652D13F2916E80E00CE6A74 /* Injector.swift */; };
 		068A69C328F2BFA3009A007F /* APIClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068A69C228F2BFA3009A007F /* APIClientProtocol.swift */; };
 		068A69C528F2BFFB009A007F /* APIRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068A69C428F2BFFB009A007F /* APIRepository.swift */; };
 		068A69C828F2F5E1009A007F /* RepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068A69C728F2F5E1009A007F /* RepositoryProtocol.swift */; };
@@ -65,6 +71,10 @@
 		060C42BD28F9C5EC009DF54D /* CurrencyAPITTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyAPITTest.swift; sourceTree = "<group>"; };
 		060F6FC028F9E51500C4C201 /* Currency+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Currency+CoreDataClass.swift"; sourceTree = "<group>"; };
 		060F6FC128F9E51500C4C201 /* Currency+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Currency+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0612F9EB29263755006F55E9 /* CDFetchResultPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDFetchResultPublisher.swift; sourceTree = "<group>"; };
+		0612F9ED2926B278006F55E9 /* CDSaveModelPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDSaveModelPublisher.swift; sourceTree = "<group>"; };
+		0614A3B32917ACA700C12C32 /* APIWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIWorker.swift; sourceTree = "<group>"; };
+		0614A3B52917ACB800C12C32 /* PersistenceWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceWorker.swift; sourceTree = "<group>"; };
 		0615D47128F1E331003BFC48 /* CurrencyConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurrencyConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0615D47428F1E331003BFC48 /* CurrencyConverterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterApp.swift; sourceTree = "<group>"; };
 		0615D47628F1E331003BFC48 /* ConverterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConverterView.swift; sourceTree = "<group>"; };
@@ -76,13 +86,14 @@
 		0615D48F28F1E335003BFC48 /* CurrencyConverterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterUITests.swift; sourceTree = "<group>"; };
 		0615D49128F1E335003BFC48 /* CurrencyConverterUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		0615D4A128F1E42F003BFC48 /* Configurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurator.swift; sourceTree = "<group>"; };
-		0615D4A328F1E4CC003BFC48 /* Interactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
-		0615D4A528F1E4DE003BFC48 /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
+		0615D4A328F1E4CC003BFC48 /* ConversionWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionWorker.swift; sourceTree = "<group>"; };
 		062FCB5628F8037400A01F26 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		062FCB5928F81A9800A01F26 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		062FCB5B28F81AF000A01F26 /* PersistenceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceRepository.swift; sourceTree = "<group>"; };
 		062FCB9C28F8218D00A01F26 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		062FCBB328F84D5100A01F26 /* DomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainModel.swift; sourceTree = "<group>"; };
+		064584BD29125E6F008F0B1A /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		0652D13F2916E80E00CE6A74 /* Injector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injector.swift; sourceTree = "<group>"; };
 		068A69C228F2BFA3009A007F /* APIClientProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientProtocol.swift; sourceTree = "<group>"; };
 		068A69C428F2BFFB009A007F /* APIRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRepository.swift; sourceTree = "<group>"; };
 		068A69C728F2F5E1009A007F /* RepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryProtocol.swift; sourceTree = "<group>"; };
@@ -95,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				062DB7B92916EB79001091C0 /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,8 +140,19 @@
 			children = (
 				068A69C228F2BFA3009A007F /* APIClientProtocol.swift */,
 				068A69C428F2BFFB009A007F /* APIRepository.swift */,
+				064584BD29125E6F008F0B1A /* API.swift */,
 			);
 			path = "Network Task";
+			sourceTree = "<group>";
+		};
+		0614A3B02917ABEA00C12C32 /* Worker */ = {
+			isa = PBXGroup;
+			children = (
+				0614A3B32917ACA700C12C32 /* APIWorker.swift */,
+				0615D4A328F1E4CC003BFC48 /* ConversionWorker.swift */,
+				0614A3B52917ACB800C12C32 /* PersistenceWorker.swift */,
+			);
+			path = Worker;
 			sourceTree = "<group>";
 		};
 		0615D46828F1E331003BFC48 = {
@@ -230,6 +253,8 @@
 				062FCB5928F81A9800A01F26 /* PersistenceService.swift */,
 				062FCB5B28F81AF000A01F26 /* PersistenceRepository.swift */,
 				062FCBB328F84D5100A01F26 /* DomainModel.swift */,
+				0612F9EB29263755006F55E9 /* CDFetchResultPublisher.swift */,
+				0612F9ED2926B278006F55E9 /* CDSaveModelPublisher.swift */,
 			);
 			path = "Persistence Task";
 			sourceTree = "<group>";
@@ -244,14 +269,6 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
-		068A69BD28F2BE9E009A007F /* Interactor */ = {
-			isa = PBXGroup;
-			children = (
-				0615D4A328F1E4CC003BFC48 /* Interactor.swift */,
-			);
-			path = Interactor;
-			sourceTree = "<group>";
-		};
 		068A69BE28F2BEBC009A007F /* Domain */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,21 +280,13 @@
 		068A69BF28F2BEC2009A007F /* Converter */ = {
 			isa = PBXGroup;
 			children = (
+				0614A3B02917ABEA00C12C32 /* Worker */,
 				060C42AD28F9617C009DF54D /* Router */,
-				068A69C028F2BED2009A007F /* Presenter */,
 				0615D49F28F1E3B7003BFC48 /* Model */,
-				068A69BD28F2BE9E009A007F /* Interactor */,
 				0615D4A028F1E3BE003BFC48 /* View */,
+				0652D13F2916E80E00CE6A74 /* Injector.swift */,
 			);
 			path = Converter;
-			sourceTree = "<group>";
-		};
-		068A69C028F2BED2009A007F /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				0615D4A528F1E4DE003BFC48 /* Presenter.swift */,
-			);
-			path = Presenter;
 			sourceTree = "<group>";
 		};
 		068A69C628F2F5CB009A007F /* Repository */ = {
@@ -306,6 +315,9 @@
 			dependencies = (
 			);
 			name = CurrencyConverter;
+			packageProductDependencies = (
+				062DB7B82916EB79001091C0 /* Swinject */,
+			);
 			productName = CurrencyConverter;
 			productReference = 0615D47128F1E331003BFC48 /* CurrencyConverter.app */;
 			productType = "com.apple.product-type.application";
@@ -378,6 +390,9 @@
 				Base,
 			);
 			mainGroup = 0615D46828F1E331003BFC48;
+			packageReferences = (
+				062DB7B72916EB79001091C0 /* XCRemoteSwiftPackageReference "Swinject" */,
+			);
 			productRefGroup = 0615D47228F1E331003BFC48 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -420,10 +435,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				064584BE29125E6F008F0B1A /* API.swift in Sources */,
+				0612F9EC29263755006F55E9 /* CDFetchResultPublisher.swift in Sources */,
+				0612F9EE2926B278006F55E9 /* CDSaveModelPublisher.swift in Sources */,
 				0615D47728F1E331003BFC48 /* ConverterView.swift in Sources */,
 				0615D4A228F1E42F003BFC48 /* Configurator.swift in Sources */,
+				0614A3B42917ACA700C12C32 /* APIWorker.swift in Sources */,
 				062FCB9D28F8218D00A01F26 /* CurrencyConverter.xcdatamodeld in Sources */,
-				0615D4A428F1E4CC003BFC48 /* Interactor.swift in Sources */,
+				0615D4A428F1E4CC003BFC48 /* ConversionWorker.swift in Sources */,
 				060C42B128F97FAD009DF54D /* AppConstants.swift in Sources */,
 				060C42BA28F9BDCA009DF54D /* ViewLoadModifier.swift in Sources */,
 				068A69C528F2BFFB009A007F /* APIRepository.swift in Sources */,
@@ -436,10 +455,11 @@
 				060F6FC328F9E51500C4C201 /* Currency+CoreDataProperties.swift in Sources */,
 				060C42AF28F9618B009DF54D /* Router.swift in Sources */,
 				062FCB5728F8037400A01F26 /* Extensions.swift in Sources */,
+				0614A3B62917ACB800C12C32 /* PersistenceWorker.swift in Sources */,
 				068A69C328F2BFA3009A007F /* APIClientProtocol.swift in Sources */,
 				068A69C828F2F5E1009A007F /* RepositoryProtocol.swift in Sources */,
+				0652D1402916E80E00CE6A74 /* Injector.swift in Sources */,
 				068A69CC28F2F947009A007F /* DomainRate.swift in Sources */,
-				0615D4A628F1E4DE003BFC48 /* Presenter.swift in Sources */,
 				062FCBB428F84D5100A01F26 /* DomainModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -793,6 +813,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		062DB7B72916EB79001091C0 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		062DB7B82916EB79001091C0 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 062DB7B72916EB79001091C0 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		062FCB9B28F8218D00A01F26 /* CurrencyConverter.xcdatamodeld */ = {

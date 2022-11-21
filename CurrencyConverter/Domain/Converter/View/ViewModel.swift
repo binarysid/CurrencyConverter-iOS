@@ -6,56 +6,91 @@
 //
 
 import Foundation
+import Combine
+import Swinject
 
 protocol LoaderProtocol{
     func showProgressLoader()
     func hideProgressLoader()
 }
-protocol ConverterViewLogic:LoaderProtocol{
-    func showConvertedRates(_ rates:[DomainRate])
-    func showCurrencyList(_ currencies:[DomainRate])
-    func showCurrencyFetchError()
-}
-// ViewModel is the class that our View interacts mostly to watch for data changes. Whenever the view model is updated, the view gets notified to update it's components. This class interacts with the Interactor to fetch the data
+
 class ViewModel:ObservableObject{
+
+    @Inject
+    private var apiWorker: NetWorkerProtocol
+    @Inject
+    private var persistenceWorker: PersistenceWorkerProtocol
+    @Inject
+    private var conversionWorker: ConversionWorker
     @Published var viewObject:[DomainRate] = []
     @Published var currencyRate:String = "1.00"{
         didSet{ // once the selected currency rate changes this will trigger the new calculation for currency rate
-            guard let amount = Double(currencyRate) else{return}
-            interactor?.getConvertedList(by: selectedCurrency, amount: amount,data:self.viewObject)
+            self.fetchConvertedCurrency()
         }
     }
-    @Published var selectedCurrency:String = ""{
+    @Published var selectedCurrency:String = "USD"{
         didSet{ // once the selected currency changes this will trigger the new calculation for currency rate
-            guard let amount = Double(currencyRate) else{return}
-            interactor?.getConvertedList(by: selectedCurrency, amount: amount,data:self.viewObject)
+            self.fetchConvertedCurrency()
         }
     }
     @Published var showLoader = false
-    var interactor:ConverterInteractorProtocol?
+    var subscriptions = Set<AnyCancellable>()
     init(){
-        configure()
+        self.subscribeToCurrencyConversion()
     }
     func currencyList(){
-        interactor?.getCurrencyList()
+        self.showProgressLoader()
+        persistenceWorker.publisher
+            .sink(
+                receiveCompletion: {[weak self] completion in
+                    if case .failure(_) = completion{
+                        self?.getDataFromAPI()
+                    }
+                }, receiveValue: {[weak self] domainObject in
+                    self?.hideProgressLoader()
+                    self?.setViewObject(domainObject)
+                })
+            .store(in: &subscriptions)
+        persistenceWorker.getDomainData()
+    }
+    private func getDataFromAPI(){
+        let _ = apiWorker.publisher
+            .sink(receiveCompletion: {[weak self] completion in
+                self?.hideProgressLoader()
+                if case .failure(_) = completion{
+                    print("failed")
+                }
+        }, receiveValue: {[weak self] domainObject in
+            self?.setViewObject(domainObject)
+            self?.hideProgressLoader()
+            self?.persistenceWorker.saveCurrencyInBackground(domainObject)
+        })
+            .store(in: &subscriptions)
+        apiWorker.getDomainData()
     }
 }
-extension ViewModel:ConverterViewLogic{
-    func showConvertedRates(_ rates:[DomainRate]) {
-        DispatchQueue.main.async {
-            self.viewObject = rates
-        }
+extension ViewModel{
+    private func fetchConvertedCurrency(){
+        guard let amount = Double(currencyRate) else{return}
+        self.conversionWorker.getConvertedCurrency(from: selectedCurrency, amount: amount, data: self.viewObject)
     }
-    
-    func showCurrencyList(_ currencies: [DomainRate]) {
-        DispatchQueue.main.async {
-            self.viewObject = currencies
-            guard let data = self.viewObject.first(where: {$0.currency == "USD"}) else{return}
-            self.selectedCurrency = data.currency
-        }
+    private func subscribeToCurrencyConversion(){
+        let _ = self.conversionWorker.subscriber
+            .sink(receiveCompletion: {completion in
+                if case .failure(_) = completion{
+                    print("failed")
+                }
+            }, receiveValue: {[weak self] domainObject in
+                self?.setViewObject(domainObject)
+            })
+            .store(in: &subscriptions)
     }
-    func showCurrencyFetchError(){
-        
+}
+extension ViewModel{
+    private func setViewObject(_ data:[DomainRate]) {
+        DispatchQueue.main.async { [weak self] in
+            self?.viewObject = self?.sortAlphabetically(data: data) ?? data
+        }
     }
     func showProgressLoader(){
         DispatchQueue.main.async {
@@ -66,5 +101,8 @@ extension ViewModel:ConverterViewLogic{
         DispatchQueue.main.async {
             self.showLoader = false
         }
+    }
+    private func sortAlphabetically(data:[DomainRate])->[DomainRate]{
+        return data.sorted { $0.currency < $1.currency }
     }
 }
