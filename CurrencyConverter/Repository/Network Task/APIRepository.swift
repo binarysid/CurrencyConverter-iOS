@@ -8,33 +8,30 @@
 import Foundation
 import Combine
 
-class APIRepository{
-    enum ResponseCode:Int{
-        case success = 200
-        case failed = 404
-    }
-    typealias completionHandler = (Result<ExchangeRates?,Error>)->Void
-    // this funciton defines generic structure for network calls so it can be reused for all async operation
-    func executeAsync(_ urlRequest:URLRequest, completionHandler: @escaping resultHandler){
-        let urlSession = URLSession.shared
-        let dataTask = urlSession.dataTask(with: urlRequest){ data,response,error in
-            guard let responseStatus = response as? HTTPURLResponse, responseStatus.statusCode == ResponseCode.success.rawValue else{
-                completionHandler(.failure(API.ErrorType.Service))
-                return
-            }
-            guard let data = data, error == nil else{
-                completionHandler(.failure(API.ErrorType.Service))
-                return
-            }
-            completionHandler(.success(data))
-        }
-        dataTask.resume()
-    }
-}
-extension APIRepository:RepositoryProtocol{
-    typealias Request = URLRequest
-    typealias Output = AnyPublisher<ExchangeRates, Error>
-
+//final class APIRepository{
+//    enum ResponseCode:Int{
+//        case success = 200
+//        case failed = 404
+//    }
+//    typealias completionHandler = (Result<ExchangeRates?,Error>)->Void
+//    // this funciton defines generic structure for network calls so it can be reused for all async operation
+//    func executeAsync(_ urlRequest:URLRequest, completionHandler: @escaping resultHandler){
+//        let urlSession = URLSession.shared
+//        let dataTask = urlSession.dataTask(with: urlRequest){ data,response,error in
+//            guard let responseStatus = response as? HTTPURLResponse, responseStatus.statusCode == ResponseCode.success.rawValue else{
+//                completionHandler(.failure(API.ErrorType.Service))
+//                return
+//            }
+//            guard let data = data, error == nil else{
+//                completionHandler(.failure(API.ErrorType.Service))
+//                return
+//            }
+//            completionHandler(.success(data))
+//        }
+//        dataTask.resume()
+//    }
+//}
+final class APIRepository:APIClientProtocol{
     func getData(_ request:URLRequest) -> AnyPublisher<ExchangeRates, Error> {
         URLSession.shared.dataTaskPublisher(for: request)
             .map({ $0.data })
@@ -62,25 +59,4 @@ extension APIRepository:RepositoryProtocol{
 //            }
 //        })
 //    }
-}
-extension APIRepository:APIClientProtocol{
-    func fecthCurrencyList(completionHandler: @escaping resultHandler){
-        guard let url = API.EndPoints.allCurrencies(AppConstants.Config.APPID).url else{
-                completionHandler(.failure(API.ErrorType.BadURL))
-                return
-        }
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = API.HTTPMethods.GET
-        executeAsync(urlRequest, completionHandler: {result in
-            switch result {
-                case .success(let data):
-                    if let data = data{
-                        completionHandler(.success(data))
-                    }
-                case .failure(let error):
-                    completionHandler(.failure(error))
-            }
-        })
-    }
-
 }

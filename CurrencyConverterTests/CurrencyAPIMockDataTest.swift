@@ -8,7 +8,7 @@
 import XCTest
 @testable import CurrencyConverter
 
-class CurrencyAPITTest: XCTestCase {
+final class CurrencyAPIMockDataTest: XCTestCase {
     let apiClient = MockAPIClient()
     func testCuurrencyFetchRequest(){
         apiClient.didReturnError = false

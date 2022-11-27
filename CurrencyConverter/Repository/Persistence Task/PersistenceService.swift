@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class PersistenceService{
+final class PersistenceService{
     private init(){}
     // MARK: - Core Data stack
     static var context:NSManagedObjectContext{

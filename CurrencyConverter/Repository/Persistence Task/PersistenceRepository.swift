@@ -63,7 +63,7 @@ protocol PersistenceStoring:EntityCreating,CoreDataCreateModelPublishing,Reposit
 //
 //}
 
-class PersistenceRepository:PersistenceStoring{
+final class PersistenceRepository:PersistenceStoring{
     
     typealias Request = NSFetchRequest<Currency>
     typealias Output = CDFetchResultPublisher<Currency>

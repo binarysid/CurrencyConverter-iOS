@@ -15,7 +15,8 @@ struct Inject<T>{
     }
 }
 
-class DIManager {
+
+final class DIManager {
     static let shared = DIManager()
     private var container = Container()
     

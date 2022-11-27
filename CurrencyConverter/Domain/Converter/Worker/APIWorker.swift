@@ -12,13 +12,13 @@ protocol NetWorkerProtocol{
     var publisher:PassthroughSubject<[DomainRate], API.ErrorType>{
         get set
     }
-    func getDomainData()
+    func requestForDomainData()
 }
-class APIWorker:NetWorkerProtocol{
+final class APIWorker:NetWorkerProtocol{
     var publisher = PassthroughSubject<[DomainRate], API.ErrorType>()
     var apiRepository = APIRepository()
     var subscriptions = Set<AnyCancellable>()
-    func getDomainData(){
+    func requestForDomainData(){
         guard let url = API.EndPoints.allCurrencies(AppConstants.Config.APPID).url else{
             return
         }
@@ -36,22 +36,9 @@ class APIWorker:NetWorkerProtocol{
                 }
                 
             }, receiveValue: {[weak self] data in
-//                var domainRates:[DomainRate] = []
-//                for (key,value) in data.rates{
-//                    let rateObj =
-//                    domainRates.append(rateObj)
-//                }
                 self?.publisher.send(data)
                 self?.publisher.send(completion: .finished)
-//                self?.saveToPersistenceRepoInBackground(data)
             })
             .store(in: &subscriptions)
     }
 }
-
-//extension APIWorker{
-//    private func saveToPersistenceRepoInBackground(_ data:[String: Double]){
-//        for (key,value) in data{ self.peresistenceRepository.create(name: key, rate: value)
-//        }
-//    }
-//}

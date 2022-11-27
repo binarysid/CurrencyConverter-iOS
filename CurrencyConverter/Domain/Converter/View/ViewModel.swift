@@ -14,7 +14,7 @@ protocol LoaderProtocol{
     func hideProgressLoader()
 }
 
-class ViewModel:ObservableObject{
+final class ViewModel:ObservableObject{
 
     @Inject
     private var apiWorker: NetWorkerProtocol
@@ -66,7 +66,7 @@ class ViewModel:ObservableObject{
             self?.persistenceWorker.saveCurrencyInBackground(domainObject)
         })
             .store(in: &subscriptions)
-        apiWorker.getDomainData()
+        apiWorker.requestForDomainData()
     }
 }
 extension ViewModel{

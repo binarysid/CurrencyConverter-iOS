@@ -15,7 +15,7 @@ protocol PersistenceWorkerProtocol{
     func getDomainData()
     func saveCurrencyInBackground(_ data:[DomainRate])
 }
-class PersistenceWorker:PersistenceWorkerProtocol{
+final class PersistenceWorker:PersistenceWorkerProtocol{
     
     var publisher = PassthroughSubject<[DomainRate], API.ErrorType>()
     var peresistenceRepository = PersistenceRepository()

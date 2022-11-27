@@ -12,7 +12,7 @@ protocol ConversionWorkerProtocol{
     func getConvertedCurrency(from currency:String,amount:Double,data:[DomainRate]?)
 }
 
-class ConversionWorker:ConversionWorkerProtocol{
+final class ConversionWorker:ConversionWorkerProtocol{
     private var subject = PassthroughSubject<[DomainRate],Never>()
     var subscriber: AnyPublisher<[DomainRate], Never>{
         get {

@@ -5,11 +5,12 @@
 //  Created by Linkon Sid on 14/10/22.
 //
 
-import Foundation
-
+import Combine
+import XCTest
 @testable import CurrencyConverter
 
-class MockAPIClient{
+
+final class MockAPIClient{
     var didReturnError = false
     var apiLoaded = false
     
@@ -25,6 +26,17 @@ class MockAPIClient{
     }
     init(_ shouldReturnError:Bool){
         self.didReturnError = shouldReturnError
+        let testBundle = Bundle(for: MockAPIClient.self)
+        if let url =
+            testBundle.url(forResource:"currency",withExtension:"json"){
+            do
+            {
+                let data = try Data(contentsOf: url)
+            }catch{
+                print("error")
+            }
+        }
+        
     }
     let mockResponse = """
     {
@@ -61,13 +73,10 @@ class MockAPIClient{
 }
 
 extension MockAPIClient:APIClientProtocol{
-    func fecthCurrencyList(completionHandler: @escaping resultHandler) {
-        apiLoaded = true
-        if didReturnError{
-            completionHandler(.failure(MockServiceError.noDataFound))
-        }
-        else{
-            completionHandler(.success(Data(mockResponse.description.utf8)))
-        }
+    func getData(_ request: URLRequest) -> AnyPublisher<ExchangeRates, Error> {
+        <#code#>
     }
+    
+    
+
 }
