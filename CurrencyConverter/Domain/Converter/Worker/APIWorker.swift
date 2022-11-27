@@ -39,6 +39,10 @@ final class APIWorker<T:APIClientProtocol>:NetWorkerProtocol{
                 }
                 
             }, receiveValue: {[weak self] data in
+                if data.isEmpty{
+                    self?.publisher.send(completion: .failure(.NoDataFound))
+                    return
+                }
                 self?.publisher.send(data)
                 self?.publisher.send(completion: .finished)
             })

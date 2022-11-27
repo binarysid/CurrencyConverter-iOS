@@ -13,25 +13,25 @@ final class CurrencyAPIMockDataTest: XCTestCase {
     func testCuurrencyFetchRequest(){
         apiClient.didReturnError = false
         let expectation = self.expectation(description: "Currency parse expectation")
-        apiClient.fecthCurrencyList(){ result in
-            switch result{
-            case .success(let data):
-                if let data = data{
-                    do{
-                        let resultData = try JSONDecoder().decode(ExchangeRates.self, from: data)
-                        print(resultData)
-                        XCTAssertNotNil(resultData)
-                        expectation.fulfill()
-                        
-                    }catch{
-                        XCTFail()
-                    }
-                }
-            case .failure(let error):
-                print(error)
-                XCTFail()
-            }
-        }
+//        apiClient.fecthCurrencyList(){ result in
+//            switch result{
+//            case .success(let data):
+//                if let data = data{
+//                    do{
+//                        let resultData = try JSONDecoder().decode(ExchangeRates.self, from: data)
+//                        print(resultData)
+//                        XCTAssertNotNil(resultData)
+//                        expectation.fulfill()
+//                        
+//                    }catch{
+//                        XCTFail()
+//                    }
+//                }
+//            case .failure(let error):
+//                print(error)
+//                XCTFail()
+//            }
+//        }
         self.waitForExpectations(timeout: 4.0, handler: nil)
     }
 
