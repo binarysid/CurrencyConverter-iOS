@@ -14,17 +14,20 @@ protocol NetWorkerProtocol{
     }
     func requestForDomainData()
 }
-final class APIWorker:NetWorkerProtocol{
+final class APIWorker<T:APIClientProtocol>:NetWorkerProtocol{
     var publisher = PassthroughSubject<[DomainRate], API.ErrorType>()
-    var apiRepository = APIRepository()
+    var apiRepository:T?
     var subscriptions = Set<AnyCancellable>()
+    init(client:T) {
+        self.apiRepository = client
+    }
     func requestForDomainData(){
         guard let url = API.EndPoints.allCurrencies(AppConstants.Config.APPID).url else{
             return
         }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = API.HTTPMethods.GET
-        apiRepository.getData(urlRequest)
+        apiRepository?.getData(urlRequest)
             .map{
                 $0.rates.map{key,value in
                     DomainRate(currency: key, rate: value)

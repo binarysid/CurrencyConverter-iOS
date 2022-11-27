@@ -25,7 +25,7 @@ final class DIManager {
     }
     func registerAPIWorker(){
         container.register(NetWorkerProtocol.self) { _  in
-            return APIWorker()
+            return APIWorker(client: APIRepository())
         }
     }
     func registerPersistenceWorker(){

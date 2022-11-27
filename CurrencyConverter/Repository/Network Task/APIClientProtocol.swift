@@ -12,3 +12,5 @@ protocol APIClientProtocol:RepositoryProtocol where Request == URLRequest, Outpu
     
     func getData(_ request:URLRequest) -> AnyPublisher<ExchangeRates, Error>
 }
+
+
