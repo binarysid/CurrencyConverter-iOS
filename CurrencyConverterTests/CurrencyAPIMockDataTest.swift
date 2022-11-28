@@ -6,47 +6,59 @@
 //
 
 import XCTest
+import Combine
 @testable import CurrencyConverter
 
 final class CurrencyAPIMockDataTest: XCTestCase {
-    let apiClient = MockAPIClient()
-    func testCuurrencyFetchRequest(){
-        apiClient.didReturnError = false
-        let expectation = self.expectation(description: "Currency parse expectation")
-//        apiClient.fecthCurrencyList(){ result in
-//            switch result{
-//            case .success(let data):
-//                if let data = data{
-//                    do{
-//                        let resultData = try JSONDecoder().decode(ExchangeRates.self, from: data)
-//                        print(resultData)
-//                        XCTAssertNotNil(resultData)
-//                        expectation.fulfill()
-//                        
-//                    }catch{
-//                        XCTFail()
-//                    }
-//                }
-//            case .failure(let error):
-//                print(error)
-//                XCTFail()
-//            }
-//        }
-        self.waitForExpectations(timeout: 4.0, handler: nil)
+    var apiClient: MockAPIClient!
+    var apiWorker:APIWorker<MockAPIClient>!
+    var expectation:XCTestExpectation!
+    var subscriptions = Set<AnyCancellable>()
+    let testBundle = Bundle(for: CurrencyAPIMockDataTest.self)
+    func testCurrencyFetchRequest(){
+        subscribeToPublisher()
+        if let url =
+            testBundle.url(forResource:"@Mock-ExchangeRates",withExtension:"json"){
+            do
+            {
+                let data = try Data(contentsOf: url)
+                let json = try JSONDecoder().decode(ExchangeRates.self, from: data)
+                apiClient.result = Result.success(json).publisher.eraseToAnyPublisher()
+            }catch{
+                XCTFail("Invalid data request")
+                self.expectation.fulfill()
+            }
+        }
+        apiWorker.requestForDomainData()
+        self.waitForExpectations(timeout: 0.0, handler: nil)
     }
 
+    private func subscribeToPublisher(){
+        apiWorker.resultPublisher.sink(receiveCompletion: {completion in
+            if case .failure(_) = completion{
+                XCTFail("completion failed")
+                self.expectation.fulfill()
+            }
+            
+        }, receiveValue: { domainObject in
+            XCTAssertGreaterThan(domainObject.count, 0)
+            self.expectation.fulfill()
+        })
+        .store(in: &subscriptions)
+    }
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        try super.setUpWithError()
+        apiClient = MockAPIClient()
+        apiWorker = APIWorker(client: apiClient)
+        expectation = expectation(description: "Currency parse expectation")
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        apiClient = nil
+        apiWorker = nil
+        try super.tearDownWithError()
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
