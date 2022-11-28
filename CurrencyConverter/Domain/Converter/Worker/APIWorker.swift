@@ -9,13 +9,13 @@ import Foundation
 import Combine
 
 protocol NetWorkerProtocol{
-    var publisher:PassthroughSubject<[DomainRate], API.ErrorType>{
+    var resultPublisher:PassthroughSubject<[DomainRate], API.ErrorType>{
         get set
     }
     func requestForDomainData()
 }
 final class APIWorker<T:APIClientProtocol>:NetWorkerProtocol{
-    var publisher = PassthroughSubject<[DomainRate], API.ErrorType>()
+    var resultPublisher = PassthroughSubject<[DomainRate], API.ErrorType>()
     var apiRepository:T?
     var subscriptions = Set<AnyCancellable>()
     init(client:T) {
@@ -35,16 +35,12 @@ final class APIWorker<T:APIClientProtocol>:NetWorkerProtocol{
             }
             .sink(receiveCompletion: { [weak self] completion in
                 if case .failure(_) = completion{
-                    self?.publisher.send(completion: .failure(.NoDataFound))
+                    self?.resultPublisher.send(completion: .failure(.NoDataFound))
                 }
                 
             }, receiveValue: {[weak self] data in
-                if data.isEmpty{
-                    self?.publisher.send(completion: .failure(.NoDataFound))
-                    return
-                }
-                self?.publisher.send(data)
-                self?.publisher.send(completion: .finished)
+                self?.resultPublisher.send(data)
+                self?.resultPublisher.send(completion: .finished)
             })
             .store(in: &subscriptions)
     }
