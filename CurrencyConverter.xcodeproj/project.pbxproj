@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0601D17E29314FA300FBF2B2 /* currency.json in Resources */ = {isa = PBXBuildFile; fileRef = 0601D17D29314FA300FBF2B2 /* currency.json */; };
+		0601D17E29314FA300FBF2B2 /* @Mock-ExchangeRates.json in Resources */ = {isa = PBXBuildFile; fileRef = 0601D17D29314FA300FBF2B2 /* @Mock-ExchangeRates.json */; };
 		060C42AC28F8B5DB009DF54D /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C42AB28F8B5DB009DF54D /* ViewModel.swift */; };
 		060C42AF28F9618B009DF54D /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C42AE28F9618B009DF54D /* Router.swift */; };
 		060C42B128F97FAD009DF54D /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C42B028F97FAD009DF54D /* AppConstants.swift */; };
@@ -63,7 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0601D17D29314FA300FBF2B2 /* currency.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = currency.json; sourceTree = "<group>"; };
+		0601D17D29314FA300FBF2B2 /* @Mock-ExchangeRates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "@Mock-ExchangeRates.json"; sourceTree = "<group>"; };
 		060C42AB28F8B5DB009DF54D /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		060C42AE28F9618B009DF54D /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		060C42B028F97FAD009DF54D /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
@@ -131,12 +131,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0601D17C29314E7100FBF2B2 /* Fakes */ = {
+		0601D17C29314E7100FBF2B2 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				0601D17D29314FA300FBF2B2 /* currency.json */,
+				0601D17D29314FA300FBF2B2 /* @Mock-ExchangeRates.json */,
 			);
-			path = Fakes;
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		060C42AD28F9617C009DF54D /* Router */ = {
@@ -213,7 +213,7 @@
 		0615D48428F1E335003BFC48 /* CurrencyConverterTests */ = {
 			isa = PBXGroup;
 			children = (
-				0601D17C29314E7100FBF2B2 /* Fakes */,
+				0601D17C29314E7100FBF2B2 /* Mocks */,
 				0615D48528F1E335003BFC48 /* CurrencyConverterTests.swift */,
 				060C42BD28F9C5EC009DF54D /* CurrencyAPIMockDataTest.swift */,
 				060C42BB28F9C0C9009DF54D /* MockAPIClient.swift */,
@@ -432,7 +432,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0601D17E29314FA300FBF2B2 /* currency.json in Resources */,
+				0601D17E29314FA300FBF2B2 /* @Mock-ExchangeRates.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -54,7 +54,7 @@ final class ViewModel:ObservableObject{
         persistenceWorker.getDomainData()
     }
     private func getDataFromAPI(){
-        let _ = apiWorker.publisher
+        let _ = apiWorker.resultPublisher
             .sink(receiveCompletion: {[weak self] completion in
                 self?.hideProgressLoader()
                 if case .failure(_) = completion{
