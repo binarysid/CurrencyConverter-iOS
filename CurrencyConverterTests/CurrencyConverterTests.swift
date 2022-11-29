@@ -37,6 +37,13 @@ class CurrencyConverterTests: XCTestCase {
         
         XCTAssertTrue(val.checkEqual(to: expected, decimalPoint: 1))
     }
+    func testEURToBDTConversion(){
+        let expected = 105.0
+        let units:Double = 1
+        guard let val = worker?.convert(givenCurrencyRateInUSD: 0.97, expectedCurrencyRateInUSD: 101.69, amount: units) else{return}
+        XCTAssertEqual(val, expected)
+//        XCTAssertTrue(val.checkEqual(to: expected, decimalPoint: 1))
+    }
 //    func testPerformanceExample() throws {
 //        // This is an example of a performance test case.
 //        self.measure {
