@@ -3,7 +3,7 @@
 
 name: Currency-Converter-CI
 env:
-    CONFIG: ${{ secrets.CONFIG }}
+    CONFIG: ${{ secrets.CONFIG }} # the project has env file Config.xcconfig file which is gitignored. The project will not build in github actions. So we create secret env from Github->repository->settings->environment->create environment->add secret->Give a name and copy the content from projects Config.xcconfig file to this file and save. Now in the job section we added the step(Write Config)to write the contents to a new file.
 on:
   push:
     branches: [ "main" ]
