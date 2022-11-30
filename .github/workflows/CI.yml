@@ -1,6 +1,9 @@
+#Explore the site below to check github action tricks:
+#https://yonatankra.com/7-github-actions-tricks-i-wish-i-knew-before-i-started/
 
 name: Currency-Converter-CI
-
+env:
+    CONFIG: ${{ secrets.CONFIG }}
 on:
   push:
     branches: [ "main" ]
@@ -14,12 +17,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
+    - name: Write Config
+      run: |
+          touch Config.xcconfig
+          echo $CONFIG >> Config.xcconfig
+          cat  Config.xcconfig
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode_13.1.app && /usr/bin/xcodebuild -version
     
     - name: Build and test
       run: xcodebuild clean build test -project CurrencyConverter.xcodeproj -scheme CurrencyConverter -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 11" ONLY_ACTIVE_ARCH=NO CODE_SIGNING_REQUIRED=NO
-
+      
+#  By adding the concurrency and setting cancel-in-progress to true, github actions will search for a running process of the same group and stop it before starting a new one.
+concurrency:
+  group: ci-tests-${{ github.ref }}-1
+  cancel-in-progress: true
+  
 #xcodebuild test -scheme MyProjectName -project MyProjectName.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 12,OS=15.0' | xcpretty && exit ${PIPESTATUS[0]}
 
