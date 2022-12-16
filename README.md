@@ -18,3 +18,5 @@ Concepts and Frameworks used in this Project:
 > Reactive Programming and Protocol Oriented Concepts.
 > ✨MVVM Clean Architecture✨ has been the heart of the project
 > to make the unit testing more flexible and joyful.
+
+Project Architecure can be found [here](https://github.com/binarysid/CurrencyConverter-iOS/blob/main/app-architecture.png)
