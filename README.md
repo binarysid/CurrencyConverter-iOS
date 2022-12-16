@@ -1,10 +1,11 @@
 # Currency converter
 
-The app provides feature for converting currency to difference international currencies
+The app provides feature for converting currency to difference international currencies.
 
 Concepts and Frameworks used in this Project:
 
 - Combine framework for bindings
+- Custom Publisher/Subscription
 - Swinject for Dependency Injection
 - SwiftUI
 - Core Data
